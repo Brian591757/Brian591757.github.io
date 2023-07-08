@@ -5,6 +5,7 @@ var player;
 var keyboard;
 
 var platforms = [];
+var floor;
 
 var leftWall;
 var leftWall2;
@@ -27,6 +28,7 @@ function preload () {
     game.load.crossOrigin = 'anonymous';
     game.load.spritesheet('player', 'player.png', 32, 32);
     game.load.image('wall', 'wall.png');
+    game.load.image('grass', 'grass.png');
     game.load.image('ceiling', 'ceiling.png');
     game.load.image('normal', 'normal.png');
     game.load.image('nails', 'nails.png');
@@ -132,6 +134,8 @@ function createOnePlatform (h) {
         platform = game.add.sprite(x, y, 'conveyorRight');
         platform.animations.add('scroll', [0, 1, 2, 3], 16, true);
         platform.play('scroll');
+    } else if (rand < 80) {
+            platform = game.add.sprite(x, y, 'grass');
     } else if (rand < 90) {
         platform = game.add.sprite(x, y, 'trampoline');
         platform.animations.add('jump', [4, 5, 4, 3, 2, 1, 0, 1, 2, 3], 120);
