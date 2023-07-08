@@ -21,6 +21,8 @@ var text3;
 var distance = 0;
 var status = 'running';
 
+window.alert("以下是小朋友下樓梯的遊戲規則：\n控制鍵盤左右鍵移動角色\n碰到釘子會扣一條命\n當生命小於0時 遊戲結束")
+
 function preload () {
     game.load.baseURL = 'https://Brian591757.github.io/assets/';
     //game.load.baseURL = 'https://wacamoto.github.io/NS-Shaft-Tutorial/assets/';
