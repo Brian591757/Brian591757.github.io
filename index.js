@@ -5,6 +5,7 @@ var player;
 var keyboard;
 
 var platforms = [];
+var grass;
 
 var leftWall;
 var leftWall2;
@@ -30,6 +31,7 @@ function preload () {
     game.load.spritesheet('player', 'player.png', 32, 32);
     game.load.image('wall', 'wall.png');
     game.load.image('ceiling', 'ceiling.png');
+    game.load.image('grass', 'grass.png');
     game.load.image('normal', 'normal.png');
     game.load.image('nails', 'nails.png');
     game.load.spritesheet('conveyorRight', 'conveyor_right.png', 96, 16);
@@ -121,7 +123,7 @@ function createOnePlatform (h) {
     var rand = Math.random() * 100;
 
     if(rand < 30) {
-        platform = game.add.sprite(x, y, 'normal');
+        platform = game.add.sprite(x, y, 'grass');
     } else if (rand < 40) {
         platform = game.add.sprite(x, y, 'nails');
         game.physics.arcade.enable(platform);
