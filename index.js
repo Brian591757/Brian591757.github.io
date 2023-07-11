@@ -1,4 +1,4 @@
-var game = new Phaser.Game(600, 600, Phaser.AUTO, '',
+var game = new Phaser.Game(399, 399, Phaser.AUTO, '',
     { preload: preload, create: create, update: update });
 //https://hackmd.io/@NrgG4-TCS42pma6IfQW84A/rkR_9r4Qe?type=slide#/1
 var player;
@@ -22,7 +22,12 @@ var text3;
 var distance = 0;
 var status = 'running';
 
-window.alert("以下是小朋友下樓梯的遊戲規則：\n控制鍵盤左右鍵移動角色\n碰到釘子會扣一條命\n當生命小於0時 遊戲結束")
+var countdownSeconds = 180; //倒數計時的秒數
+var startTime = Date.now();
+var countdownInterval = null;
+var remainingSeconds = null;
+
+// window.alert("以下是小朋友下樓梯的遊戲規則：\n控制鍵盤左右鍵移動角色\n碰到釘子會扣一條命\n當生命小於0時 遊戲結束")
 
 function preload () {
     game.load.baseURL = 'https://Brian591757.github.io/assets/';
@@ -36,8 +41,8 @@ function preload () {
     game.load.image('nails', 'nails.png');
     game.load.spritesheet('conveyorRight', 'conveyor_right.png', 96, 16);
     game.load.spritesheet('conveyorLeft', 'conveyor_left.png', 96, 16);
-    game.load.spritesheet('trampoline', 'trampoline.png', 96, 22);
-    game.load.spritesheet('fake', 'fake.png', 96, 36);
+    game.load.spritesheet('trampoline', 'trampoline.png', 72, 22);
+    game.load.spritesheet('fake', 'fake.png', 72, 36);
 }
 
 
@@ -62,8 +67,10 @@ function create () {
 
 function update () {
 
+    updateTextsBoard();
     // bad
     if(status == 'gameOver' && keyboard.enter.isDown) restart();
+    
     if(status != 'running') return;
 
     this.physics.arcade.collide(player, platforms, effect);
@@ -73,7 +80,7 @@ function update () {
 
     updatePlayer();
     updatePlatforms();
-    updateTextsBoard();
+    // updateTextsBoard();
 
     createPlatforms();
 }
@@ -86,15 +93,15 @@ function createBounders () {
     leftWall.body.immovable = true;
     leftWall2.body.immovable = true;
 
-    rightWall = game.add.sprite(583, 0, 'wall');
+    rightWall = game.add.sprite(382, 0, 'wall');
     game.physics.arcade.enable(rightWall);
     rightWall.body.immovable = true;
-   rightWall2 = game.add.sprite(583, 400, 'wall');
+   rightWall2 = game.add.sprite(382, 400, 'wall');
     game.physics.arcade.enable(rightWall2);
     rightWall2.body.immovable = true;
 
     ceiling = game.add.image(0, 0, 'ceiling');
-    ceiling = game.add.image(400, 0, 'ceiling');
+    ceiling = game.add.image(399, 0, 'ceiling');
 }
 
 var lastTime = 0;
@@ -103,13 +110,13 @@ function createPlatforms() {
  //   console.log(game.time)
     if (lastTime == 0) {
         lastTime = game.time.now;
+        createOnePlatform(350);
         createOnePlatform(450);
-        createOnePlatform(550);
       
     }
-    if(game.time.now > lastTime + 400) {
+    if(game.time.now > lastTime + 500) {
         lastTime = game.time.now;
-        createOnePlatform(600);
+        createOnePlatform(500);
         distance += 1;
     }
 }
@@ -118,7 +125,7 @@ function createPlatforms() {
 function createOnePlatform (h) {
 
     var platform;
-    var x = Math.random()*(600 - 96 - 40) + 20;
+    var x = Math.random()*(399 - 96 - 40) + 20;
     var y = h;
     var rand = Math.random() * 100;
 
@@ -127,7 +134,7 @@ function createOnePlatform (h) {
     } else if (rand < 40) {
         platform = game.add.sprite(x, y, 'nails');
         game.physics.arcade.enable(platform);
-        platform.body.setSize(96, 15, 0, 15);
+        platform.body.setSize(72, 15, 0, 15);
     } else if (rand < 50) {
         platform = game.add.sprite(x, y, 'conveyorLeft');
         platform.animations.add('scroll', [0, 1, 2, 3], 16, true);
@@ -155,9 +162,9 @@ function createOnePlatform (h) {
 }
 
 function createPlayer() {
-    player = game.add.sprite(300, 50, 'player');
+    player = game.add.sprite(200, 50, 'player');
     game.physics.arcade.enable(player);
-    player.body.gravity.y = 300;
+    player.body.gravity.y = 200;
     player.animations.add('left', [0, 1, 2, 3], 8);
     player.animations.add('right', [9, 10, 11, 12], 8);
     player.animations.add('flyleft', [18, 19, 20, 21], 12);
@@ -171,8 +178,8 @@ function createPlayer() {
 function createTextsBoard () {
     var style = {fill: '#ff0000', fontSize: '20px'}
     text1 = game.add.text(10, 10, '', style);
-    text2 = game.add.text(550, 10, '', style);
-    text3 = game.add.text(220, 280, 'Enter 重新開始', style);
+    text2 = game.add.text(345, 10, '', style);
+    text3 = game.add.text(135, 180, 'Enter 重新開始', style);
     text3.visible = false;
 }
 
@@ -224,7 +231,18 @@ function updatePlatforms () {
 
 function updateTextsBoard () {
     text1.setText('life:' + player.life);
-    text2.setText('B' + distance);
+
+    var currentTime = Date.now();
+    var elapsedTime = currentTime - startTime;
+
+    var remainingSeconds = Math.max(0, countdownSeconds - Math.floor(elapsedTime / 1000));
+
+    var minutes = Math.floor(remainingSeconds / 60);
+    var seconds = remainingSeconds % 60;
+
+    // 轉為 mm:ss 的形式
+    var formattedTime = ("0" + minutes).slice(-2) + ":" + ("0" + seconds).slice(-2);
+    text2.setText(formattedTime);
 }
 
 function effect(player, platform) {
@@ -302,7 +320,7 @@ function checkTouchCeiling(player) {
 }
 
 function checkGameOver () {
-    if(player.life <= 0 || player.body.y > 600) {
+    if(player.life <= 0 || player.body.y > 399) {
         gameOver();
     }
 }
