@@ -1,4 +1,4 @@
-var game = new Phaser.Game(399, 399, Phaser.AUTO, '',
+var game = new Phaser.Game(399, 399, Phaser.AUTO, 'container1',
     { preload: preload, create: create, update: update });
 //https://hackmd.io/@NrgG4-TCS42pma6IfQW84A/rkR_9r4Qe?type=slide#/1
 var player;
@@ -68,10 +68,13 @@ function create () {
 function update () {
 
     updateTextsBoard();
+
+    if(status == 'finish') return;
     // bad
     if(status == 'gameOver' && keyboard.enter.isDown) restart();
     
     if(status != 'running') return;
+
 
     this.physics.arcade.collide(player, platforms, effect);
     this.physics.arcade.collide(player, [leftWall, rightWall, rightWall2, leftWall2]);
@@ -236,6 +239,9 @@ function updateTextsBoard () {
     var elapsedTime = currentTime - startTime;
 
     var remainingSeconds = Math.max(0, countdownSeconds - Math.floor(elapsedTime / 1000));
+    if(remainingSeconds == 0){
+        status = 'finish';
+    }
 
     var minutes = Math.floor(remainingSeconds / 60);
     var seconds = remainingSeconds % 60;
