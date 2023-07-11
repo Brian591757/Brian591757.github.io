@@ -30,7 +30,7 @@ var remainingSeconds = null;
 // window.alert("以下是小朋友下樓梯的遊戲規則：\n控制鍵盤左右鍵移動角色\n碰到釘子會扣一條命\n當生命小於0時 遊戲結束")
 
 function preload () {
-    game.load.baseURL = 'https://Brian591757.github.io/assets/';
+    game.load.baseURL = 'https://yesfish1010.github.io/Brian591757.github.io/assets/';
     //game.load.baseURL = 'https://wacamoto.github.io/NS-Shaft-Tutorial/assets/';
     game.load.crossOrigin = 'anonymous';
     game.load.spritesheet('player', 'player.png', 32, 32);
@@ -39,8 +39,8 @@ function preload () {
     game.load.image('grass', 'grass.png');
     game.load.image('normal', 'normal.png');
     game.load.image('nails', 'nails.png');
-    game.load.spritesheet('conveyorRight', 'conveyor_right.png', 96, 16);
-    game.load.spritesheet('conveyorLeft', 'conveyor_left.png', 96, 16);
+    game.load.spritesheet('conveyorRight', 'conveyor_right.png', 73, 12);
+    game.load.spritesheet('conveyorLeft', 'conveyor_left.png', 72, 12);
     game.load.spritesheet('trampoline', 'trampoline.png', 72, 22);
     game.load.spritesheet('fake', 'fake.png', 72, 36);
 }
