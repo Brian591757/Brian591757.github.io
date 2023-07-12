@@ -101,7 +101,7 @@ function update () {
     if(status == 'finish') return;
     // bad
     if(status == 'gameOver' && keyboard.enter.isDown) restart();
-    
+ //   if (status == 'gameOver' && handleTouchStart ) restart();
     if(status != 'running') return;
 
 
@@ -196,7 +196,7 @@ function createOnePlatform (h) {
 function createPlayer() {
     player = game.add.sprite(200, 50, 'player');
     game.physics.arcade.enable(player);
-    player.body.gravity.y = 200;
+    player.body.gravity.y = 450;
     player.animations.add('left', [0, 1, 2, 3], 8);
     player.animations.add('right', [9, 10, 11, 12], 8);
     player.animations.add('flyleft', [18, 19, 20, 21], 12);
