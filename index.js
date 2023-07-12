@@ -142,13 +142,13 @@ function createPlatforms() {
  //   console.log(game.time)
     if (lastTime == 0) {
         lastTime = game.time.now;
-        createOnePlatform(350);
-        createOnePlatform(450);
+        createOnePlatform(320);
+        createOnePlatform(400);
       
     }
     if(game.time.now > lastTime + 500) {
         lastTime = game.time.now;
-        createOnePlatform(500);
+        createOnePlatform(400);
         distance += 1;
     }
 }
