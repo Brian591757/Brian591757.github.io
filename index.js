@@ -29,6 +29,9 @@ var remainingSeconds = null;
 
 // window.alert("以下是小朋友下樓梯的遊戲規則：\n控制鍵盤左右鍵移動角色\n碰到釘子會扣一條命\n當生命小於0時 遊戲結束")
 
+var touchLeft = false;
+var touchRight = false;
+
 function preload () {
     game.load.baseURL = 'https://yesfish1010.github.io/Brian591757.github.io/assets/';
     //game.load.baseURL = 'https://wacamoto.github.io/NS-Shaft-Tutorial/assets/';
@@ -63,6 +66,40 @@ function create () {
     createBounders();
     createPlayer();
     createTextsBoard();
+
+    ///加觸控
+    game.input.touch.preventDefault = false;
+    game.input.onDown.add(handleTouchStart, this)
+    game.input.onUp.add(handleTouchEnd, this)
+
+
+}
+
+//觸控
+function handleTouchStart(pointer) {
+    if(status == 'running'){
+        if (pointer.x < game.width / 2) {
+        touchLeft = true;
+        touchRight = false;
+        }
+        else if (pointer.x > game.width / 2) {
+            touchLeft = false;
+            touchRight = true;
+        }
+        else {
+            touchLeft = false;
+            touchRight = false;
+        }
+    }
+    else if(status == 'gameOver'){
+        restart()
+    }
+}
+
+//觸控放
+function handleTouchEnd(pointer) {
+        touchLeft = false;
+        touchRight = false;    
 }
 
 function update () {
@@ -72,7 +109,7 @@ function update () {
     if(status == 'finish') return;
     // bad
     if(status == 'gameOver' && keyboard.enter.isDown) restart();
-    
+
     if(status != 'running') return;
 
 
@@ -113,13 +150,13 @@ function createPlatforms() {
  //   console.log(game.time)
     if (lastTime == 0) {
         lastTime = game.time.now;
-        createOnePlatform(350);
-        createOnePlatform(450);
+        createOnePlatform(320);
+        createOnePlatform(400);
       
     }
     if(game.time.now > lastTime + 500) {
         lastTime = game.time.now;
-        createOnePlatform(500);
+        createOnePlatform(400);
         distance += 1;
     }
 }
@@ -187,9 +224,13 @@ function createTextsBoard () {
 }
 
 function updatePlayer () {
-    if(keyboard.left.isDown) {
+    if(keyboard.left.isDown)  {
         player.body.velocity.x = -500;
-    } else if(keyboard.right.isDown) {
+    } else if (touchLeft == true) {
+        player.body.velocity.x = -500;
+    } else if (touchRight == true) {
+        player.body.velocity.x = 500;
+    } else if (keyboard.right.isDown) {
         player.body.velocity.x = 500;
     } else {
         player.body.velocity.x = 0;
