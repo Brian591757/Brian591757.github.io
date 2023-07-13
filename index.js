@@ -76,17 +76,22 @@ function create () {
 }
 //觸控
 function handleTouchStart(pointer) {
-    if (pointer.x < game.width / 2) {
-        touchLeft = true;
-        touchRight = false;
+    if (status == 'running') {
+        if (pointer.x < game.width / 2) {
+            touchLeft = true;
+            touchRight = false;
+        }
+        else if (pointer.x > game.width / 2) {
+            touchLeft = false;
+            touchRight = true;
+        }
+        else {
+            touchLeft = false;
+            touchRight = false;
+        }
     }
-    else if (pointer.x > game.width / 2) {
-        touchLeft = false;
-        touchRight = true;
-    }
-    else {
-        touchLeft = false;
-        touchRight = false;
+    else if (status == 'gameOver') {
+        restart();
     }
 }
 //觸控放開
@@ -95,13 +100,15 @@ function handleTouchEnd(pointer) {
         touchRight = false;    
 }
 function update () {
-
+    console.log(status);
+ //   console.log("A");
     updateTextsBoard();
-
+ //   console.log(status)
     if(status == 'finish') return;
     // bad
-    if(status == 'gameOver' && keyboard.enter.isDown) restart();
- //   if (status == 'gameOver' && handleTouchStart ) restart();
+    if (status == 'gameOver' && keyboard.enter.isDown) restart();
+
+ //   game.input.onDown.add(handleTouchStart, this)
     if(status != 'running') return;
 
 
