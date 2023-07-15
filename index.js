@@ -37,11 +37,11 @@ function preload () {
     //game.load.baseURL = 'https://wacamoto.github.io/NS-Shaft-Tutorial/assets/';
     game.load.crossOrigin = 'anonymous';
     game.load.spritesheet('player', 'player.png', 32, 32);
-    game.load.image('wall', 'wall.png');
-    game.load.image('ceiling', 'ceiling.png');
+    game.load.image('wall_new', 'wall_new.png');
+    game.load.image('ceiling_new', 'ceiling_new.png');
     game.load.image('grass', 'grass.png');
     game.load.image('normal', 'normal.png');
-    game.load.image('nails', 'nails.png');
+    game.load.image('nails_new', 'nails_new.png');
     game.load.spritesheet('conveyorRight', 'conveyor_right.png', 73, 12);
     game.load.spritesheet('conveyorLeft', 'conveyor_left.png', 72, 12);
     game.load.spritesheet('trampoline', 'trampoline.png', 72, 22);
@@ -125,22 +125,22 @@ function update () {
 }
 
 function createBounders () {
-    leftWall = game.add.sprite(0, 0, 'wall');
-    leftWall2 = game.add.sprite(0, 400, 'wall');
+    leftWall = game.add.sprite(0, 0, 'wall_new');
+    leftWall2 = game.add.sprite(0, 400, 'wall_new');
     game.physics.arcade.enable(leftWall);
     game.physics.arcade.enable(leftWall2);
     leftWall.body.immovable = true;
     leftWall2.body.immovable = true;
 
-    rightWall = game.add.sprite(382, 0, 'wall');
+    rightWall = game.add.sprite(382, 0, 'wall_new');
     game.physics.arcade.enable(rightWall);
     rightWall.body.immovable = true;
-   rightWall2 = game.add.sprite(382, 400, 'wall');
+   rightWall2 = game.add.sprite(382, 400, 'wall_new');
     game.physics.arcade.enable(rightWall2);
     rightWall2.body.immovable = true;
 
-    ceiling = game.add.image(0, 0, 'ceiling');
-    ceiling = game.add.image(399, 0, 'ceiling');
+    ceiling = game.add.image(0, 0, 'ceiling_new');
+    ceiling = game.add.image(399, 0, 'ceiling_new');
 }
 
 var lastTime = 0;
@@ -171,7 +171,7 @@ function createOnePlatform (h) {
     if(rand < 30) {
         platform = game.add.sprite(x, y, 'grass');
     } else if (rand < 40) {
-        platform = game.add.sprite(x, y, 'nails');
+        platform = game.add.sprite(x, y, 'nails_new');
         game.physics.arcade.enable(platform);
         platform.body.setSize(72, 15, 0, 15);
     } else if (rand < 50) {
@@ -218,7 +218,7 @@ function createTextsBoard () {
     var style = {fill: '#ff0000', fontSize: '20px'}
     text1 = game.add.text(10, 10, '', style);
     text2 = game.add.text(345, 10, '', style);
-    text3 = game.add.text(135, 180, 'Enter 重新開始', style);
+    text3 = game.add.text(78, 180, 'Enter 鍵或點擊螢幕重新開始', style);
     text3.visible = false;
 }
 
@@ -281,6 +281,10 @@ function updateTextsBoard () {
     var remainingSeconds = Math.max(0, countdownSeconds - Math.floor(elapsedTime / 1000));
     if(remainingSeconds == 0){
         status = 'finish';
+        showMyDialog(); // 彈出 <dialog>
+        setTimeout(function() {
+            window.location.href = 'https://www.surveycake.com/s/KO9Lv';
+        }, 2000);
     }
 
     var minutes = Math.floor(remainingSeconds / 60);
@@ -301,7 +305,7 @@ function effect(player, platform) {
     if(platform.key == 'trampoline') {
         trampolineEffect(player, platform);
     }
-    if(platform.key == 'nails') {
+    if(platform.key == 'nails_new') {
         nailsEffect(player, platform);
     }
     if(platform.key == 'normal') {
@@ -383,4 +387,17 @@ function restart () {
     distance = 0;
     createPlayer();
     status = 'running';
+}
+
+// 關於時間結束後的彈出視窗之設定
+function showMyDialog() {
+    var dialog = document.getElementById('myDialog');
+    dialog.style.display = 'block'; // 顯示 <dialog>
+    dialog.showModal(); // 啟用模態對話框
+}
+
+// 在特定條件滿足時隱藏 <dialog>
+function hideMyDialog() {
+    var dialog = document.getElementById('myDialog');
+    dialog.close(); // 隱藏 <dialog>
 }
