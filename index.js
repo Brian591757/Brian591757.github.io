@@ -33,7 +33,8 @@ var touchLeft = false;
 var touchRight = false;
 
 function preload () {
-    game.load.baseURL = 'https://yesfish1010.github.io/Brian591757.github.io/assets/';
+    //game.load.baseURL = 'https://yesfish1010.github.io/Brian591757.github.io/assets/';
+    game.load.baseURL = 'https://Brian591757.github.io/assets/';
     //game.load.baseURL = 'https://wacamoto.github.io/NS-Shaft-Tutorial/assets/';
     game.load.crossOrigin = 'anonymous';
     game.load.spritesheet('player', 'player.png', 32, 32);
@@ -135,12 +136,12 @@ function createBounders () {
     rightWall = game.add.sprite(382, 0, 'wall_new');
     game.physics.arcade.enable(rightWall);
     rightWall.body.immovable = true;
-   rightWall2 = game.add.sprite(382, 400, 'wall_new');
+    rightWall2 = game.add.sprite(382, 400, 'wall_new');
     game.physics.arcade.enable(rightWall2);
     rightWall2.body.immovable = true;
 
-    ceiling = game.add.image(0, 0, 'ceiling_new');
-    ceiling = game.add.image(399, 0, 'ceiling_new');
+    ceiling = game.add.image(18, 0, 'ceiling_new');
+    //ceiling = game.add.image(399, 0, 'ceiling_new');
 }
 
 var lastTime = 0;
@@ -173,7 +174,8 @@ function createOnePlatform (h) {
     } else if (rand < 40) {
         platform = game.add.sprite(x, y, 'nails_new');
         game.physics.arcade.enable(platform);
-        platform.body.setSize(72, 15, 0, 15);
+        platform.body.setSize(72, 15, 0, 5);
+        //platform.body.setSize(72, 15, 0, 15);
     } else if (rand < 50) {
         platform = game.add.sprite(x, y, 'conveyorLeft');
         platform.animations.add('scroll', [0, 1, 2, 3], 16, true);
