@@ -174,7 +174,7 @@ function createOnePlatform (h) {
     } else if (rand < 40) {
         platform = game.add.sprite(x, y, 'nails_new');
         game.physics.arcade.enable(platform);
-        platform.body.setSize(72, 15, 0, 5);
+        platform.body.setSize(72, 15, 0, 0);
         //platform.body.setSize(72, 15, 0, 15);
     } else if (rand < 50) {
         platform = game.add.sprite(x, y, 'conveyorLeft');
