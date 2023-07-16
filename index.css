@@ -33,11 +33,8 @@ dialog::backdrop {
 /*手機和平板*/
 @media (max-width: 840px) {
 
-<<<<<<< HEAD
-    body{
-=======
+
     body {
->>>>>>> 19a1b56f474576f835793fb5906eec941ee8576b
         max-width: 399px;
     }
 
@@ -77,23 +74,14 @@ dialog::backdrop {
         background-image: url("./assets/ad.jpg");
         background-size: 100% auto;
         background-repeat: no-repeat;
-<<<<<<< HEAD
         background-position: center bottom  ;
         width: 100%;
         height: 100%;
         max-width: 399px;
       }
     
-      dialog {
-=======
-        background-position: center top;
-        width: 100%;
-        height: 100%;
-        max-width: 399px;
-    }
 
     dialog {
->>>>>>> 19a1b56f474576f835793fb5906eec941ee8576b
         border: none;
         box-shadow: 0 2px 6px #ccc;
         border-radius: 20px;
@@ -109,11 +97,7 @@ dialog::backdrop {
 }
 
 /*電腦*/
-<<<<<<< HEAD
-@media (min-width: 841px){
-=======
 @media (min-width: 841px) {
->>>>>>> 19a1b56f474576f835793fb5906eec941ee8576b
 
     #container {
         display: flex;
@@ -138,17 +122,10 @@ dialog::backdrop {
     #container2, #container3 {
         flex-grow: 1;
         width: 100%;
-<<<<<<< HEAD
         padding-top: 10px;
         display: flex;
         justify-content: center;
         align-items:flex-end;
-=======
-        padding-bottom: 10px;
-        display: flex;
-        justify-content: center;
-        align-items: flex-end;
->>>>>>> 19a1b56f474576f835793fb5906eec941ee8576b
     }
 
     .image {
@@ -157,13 +134,10 @@ dialog::backdrop {
         background-image: url("./assets/ad.jpg");
         background-size: 100% 100%;
         background-repeat: no-repeat;
-<<<<<<< HEAD
         background-position: center bottom  ;
         max-height: 100px;
-=======
         background-position: center top;
         max-height:100px;
->>>>>>> 19a1b56f474576f835793fb5906eec941ee8576b
     }
 
     dialog {
