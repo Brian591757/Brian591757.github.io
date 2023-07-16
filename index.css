@@ -81,7 +81,7 @@ dialog::backdrop {
         border-radius: 20px;
         height: 30%;
         width: 70%;
-        background-image: url('./image/popupTip.png');
+        background-image: url('./assets/popupTip.png');
         background-size: cover; /* 根據需要調整圖片大小以填滿容器 */
         background-position: top; /* 調整圖片在容器中的位置 */
         text-align: center;
