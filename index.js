@@ -267,7 +267,7 @@ function updatePlatforms () {
     for(var i=0; i<platforms.length; i++) {
         var platform = platforms[i];
         platform.body.position.y -= 3;
-        if(platform.body.position.y <= -20) {
+        if(platform.body.position.y <= 18) {
             platform.destroy();
             platforms.splice(i, 1);
         }

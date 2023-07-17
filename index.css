@@ -65,7 +65,7 @@ dialog::backdrop {
     #container2, #container3 {
         flex-grow: 1;
         width: 100vw;
-        padding-top: 10px;
+        padding-bottom: 10px;
         display: flex;
         justify-content: center;
     }
@@ -122,7 +122,7 @@ dialog::backdrop {
     #container2, #container3 {
         flex-grow: 1;
         width: 100%;
-        padding-top: 10px;
+        padding-bottom: 10px;
         display: flex;
         justify-content: center;
         align-items:flex-end;
