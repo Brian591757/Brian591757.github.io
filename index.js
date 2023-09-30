@@ -1,11 +1,15 @@
-var game = new Phaser.Game(600, 600, Phaser.AUTO, '',
+var game = new Phaser.Game(399, 399, Phaser.AUTO, 'container1',
     { preload: preload, create: create, update: update });
 //https://hackmd.io/@NrgG4-TCS42pma6IfQW84A/rkR_9r4Qe?type=slide#/1
 var player;
 var keyboard;
 
 var platforms = [];
+<<<<<<< HEAD
 var floor;
+=======
+var grass;
+>>>>>>> c451e28e6319ce37f5bab2486b7ac4406726b6a8
 
 var leftWall;
 var leftWall2;
@@ -22,19 +26,31 @@ var text3;
 var distance = 0;
 var status = 'running';
 
+var countdownSeconds = 180; //倒數計時的秒數
+var startTime = Date.now();
+var countdownInterval = null;
+var remainingSeconds = null;
+
+// window.alert("以下是小朋友下樓梯的遊戲規則：\n控制鍵盤左右鍵移動角色\n碰到釘子會扣一條命\n當生命小於0時 遊戲結束")
+
+var touchLeft = false;
+var touchRight = false;
+
 function preload () {
+    //game.load.baseURL = 'https://yesfish1010.github.io/Brian591757.github.io/assets/';
     game.load.baseURL = 'https://Brian591757.github.io/assets/';
     //game.load.baseURL = 'https://wacamoto.github.io/NS-Shaft-Tutorial/assets/';
     game.load.crossOrigin = 'anonymous';
     game.load.spritesheet('player', 'player.png', 32, 32);
-    game.load.image('wall', 'wall.png');
-    game.load.image('ceiling', 'ceiling.png');
+    game.load.image('wall_new', 'wall_new.png');
+    game.load.image('ceiling_new', 'ceiling_new.png');
+    game.load.image('grass', 'grass.png');
     game.load.image('normal', 'normal.png');
-    game.load.image('nails', 'nails.png');
-    game.load.spritesheet('conveyorRight', 'conveyor_right.png', 96, 16);
-    game.load.spritesheet('conveyorLeft', 'conveyor_left.png', 96, 16);
-    game.load.spritesheet('trampoline', 'trampoline.png', 96, 22);
-    game.load.spritesheet('fake', 'fake.png', 96, 36);
+    game.load.image('nails_new', 'nails_new.png');
+    game.load.spritesheet('conveyorRight', 'conveyor_right.png', 73, 12);
+    game.load.spritesheet('conveyorLeft', 'conveyor_left.png', 72, 12);
+    game.load.spritesheet('trampoline', 'trampoline.png', 72, 22);
+    game.load.spritesheet('fake', 'fake.png', 72, 36);
 }
 
 
@@ -55,13 +71,51 @@ function create () {
     createBounders();
     createPlayer();
     createTextsBoard();
+
+    ///加觸控
+    game.input.touch.preventDefault = false;
+    game.input.onDown.add(handleTouchStart, this)
+    game.input.onUp.add(handleTouchEnd, this)
+
+
 }
-
+//觸控
+function handleTouchStart(pointer) {
+    if (status == 'running') {
+        if (pointer.x < game.width / 2) {
+            touchLeft = true;
+            touchRight = false;
+        }
+        else if (pointer.x > game.width / 2) {
+            touchLeft = false;
+            touchRight = true;
+        }
+        else {
+            touchLeft = false;
+            touchRight = false;
+        }
+    }
+    else if (status == 'gameOver') {
+        restart();
+    }
+}
+//觸控放開
+function handleTouchEnd(pointer) {
+        touchLeft = false;
+        touchRight = false;    
+}
 function update () {
-
+    console.log(status);
+ //   console.log("A");
+    updateTextsBoard();
+ //   console.log(status)
+    if(status == 'finish') return;
     // bad
-    if(status == 'gameOver' && keyboard.enter.isDown) restart();
+    if (status == 'gameOver' && keyboard.enter.isDown) restart();
+
+ //   game.input.onDown.add(handleTouchStart, this)
     if(status != 'running') return;
+
 
     this.physics.arcade.collide(player, platforms, effect);
     this.physics.arcade.collide(player, [leftWall, rightWall, rightWall2, leftWall2]);
@@ -70,28 +124,28 @@ function update () {
 
     updatePlayer();
     updatePlatforms();
-    updateTextsBoard();
+    // updateTextsBoard();
 
     createPlatforms();
 }
 
 function createBounders () {
-    leftWall = game.add.sprite(0, 0, 'wall');
-    leftWall2 = game.add.sprite(0, 400, 'wall');
+    leftWall = game.add.sprite(0, 0, 'wall_new');
+    leftWall2 = game.add.sprite(0, 400, 'wall_new');
     game.physics.arcade.enable(leftWall);
     game.physics.arcade.enable(leftWall2);
     leftWall.body.immovable = true;
     leftWall2.body.immovable = true;
 
-    rightWall = game.add.sprite(583, 0, 'wall');
+    rightWall = game.add.sprite(382, 0, 'wall_new');
     game.physics.arcade.enable(rightWall);
     rightWall.body.immovable = true;
-   rightWall2 = game.add.sprite(583, 400, 'wall');
+    rightWall2 = game.add.sprite(382, 400, 'wall_new');
     game.physics.arcade.enable(rightWall2);
     rightWall2.body.immovable = true;
 
-    ceiling = game.add.image(0, 0, 'ceiling');
-    ceiling = game.add.image(400, 0, 'ceiling');
+    ceiling = game.add.image(18, 0, 'ceiling_new');
+    //ceiling = game.add.image(399, 0, 'ceiling_new');
 }
 
 var lastTime = 0;
@@ -100,13 +154,13 @@ function createPlatforms() {
  //   console.log(game.time)
     if (lastTime == 0) {
         lastTime = game.time.now;
-        createOnePlatform(450);
-        createOnePlatform(550);
+        createOnePlatform(320);
+        createOnePlatform(400);
       
     }
-    if(game.time.now > lastTime + 400) {
+    if(game.time.now > lastTime + 500) {
         lastTime = game.time.now;
-        createOnePlatform(600);
+        createOnePlatform(400);
         distance += 1;
     }
 }
@@ -115,16 +169,17 @@ function createPlatforms() {
 function createOnePlatform (h) {
 
     var platform;
-    var x = Math.random()*(600 - 96 - 40) + 20;
+    var x = Math.random()*(399 - 96 - 40) + 20;
     var y = h;
     var rand = Math.random() * 100;
 
     if(rand < 30) {
-        platform = game.add.sprite(x, y, 'normal');
+        platform = game.add.sprite(x, y, 'grass');
     } else if (rand < 40) {
-        platform = game.add.sprite(x, y, 'nails');
+        platform = game.add.sprite(x, y, 'nails_new');
         game.physics.arcade.enable(platform);
-        platform.body.setSize(96, 15, 0, 15);
+        platform.body.setSize(72, 15, 0, 0);
+        //platform.body.setSize(72, 15, 0, 15);
     } else if (rand < 50) {
         platform = game.add.sprite(x, y, 'conveyorLeft');
         platform.animations.add('scroll', [0, 1, 2, 3], 16, true);
@@ -152,9 +207,9 @@ function createOnePlatform (h) {
 }
 
 function createPlayer() {
-    player = game.add.sprite(300, 50, 'player');
+    player = game.add.sprite(200, 50, 'player');
     game.physics.arcade.enable(player);
-    player.body.gravity.y = 300;
+    player.body.gravity.y = 450;
     player.animations.add('left', [0, 1, 2, 3], 8);
     player.animations.add('right', [9, 10, 11, 12], 8);
     player.animations.add('flyleft', [18, 19, 20, 21], 12);
@@ -168,15 +223,19 @@ function createPlayer() {
 function createTextsBoard () {
     var style = {fill: '#ff0000', fontSize: '20px'}
     text1 = game.add.text(10, 10, '', style);
-    text2 = game.add.text(550, 10, '', style);
-    text3 = game.add.text(220, 280, 'Enter 重新開始', style);
+    text2 = game.add.text(345, 10, '', style);
+    text3 = game.add.text(78, 180, 'Enter 鍵或點擊螢幕重新開始', style);
     text3.visible = false;
 }
 
 function updatePlayer () {
-    if(keyboard.left.isDown) {
+    if(keyboard.left.isDown)  {
         player.body.velocity.x = -500;
-    } else if(keyboard.right.isDown) {
+    } else if (touchLeft == true) {
+        player.body.velocity.x = -500;
+    } else if (touchRight == true) {
+        player.body.velocity.x = 500;
+    } else if (keyboard.right.isDown) {
         player.body.velocity.x = 500;
     } else {
         player.body.velocity.x = 0;
@@ -212,7 +271,7 @@ function updatePlatforms () {
     for(var i=0; i<platforms.length; i++) {
         var platform = platforms[i];
         platform.body.position.y -= 3;
-        if(platform.body.position.y <= -20) {
+        if(platform.body.position.y <= 18) {
             platform.destroy();
             platforms.splice(i, 1);
         }
@@ -221,7 +280,25 @@ function updatePlatforms () {
 
 function updateTextsBoard () {
     text1.setText('life:' + player.life);
-    text2.setText('B' + distance);
+
+    var currentTime = Date.now();
+    var elapsedTime = currentTime - startTime;
+
+    var remainingSeconds = Math.max(0, countdownSeconds - Math.floor(elapsedTime / 1000));
+    if(remainingSeconds == 0){
+        status = 'finish';
+        showMyDialog(); // 彈出 <dialog>
+        setTimeout(function() {
+            window.location.href = 'https://www.surveycake.com/s/z7lnB';
+        }, 2000);
+    }
+
+    var minutes = Math.floor(remainingSeconds / 60);
+    var seconds = remainingSeconds % 60;
+
+    // 轉為 mm:ss 的形式
+    var formattedTime = ("0" + minutes).slice(-2) + ":" + ("0" + seconds).slice(-2);
+    text2.setText(formattedTime);
 }
 
 function effect(player, platform) {
@@ -234,7 +311,7 @@ function effect(player, platform) {
     if(platform.key == 'trampoline') {
         trampolineEffect(player, platform);
     }
-    if(platform.key == 'nails') {
+    if(platform.key == 'nails_new') {
         nailsEffect(player, platform);
     }
     if(platform.key == 'normal') {
@@ -299,7 +376,7 @@ function checkTouchCeiling(player) {
 }
 
 function checkGameOver () {
-    if(player.life <= 0 || player.body.y > 600) {
+    if(player.life <= 0 || player.body.y > 399) {
         gameOver();
     }
 }
@@ -316,4 +393,17 @@ function restart () {
     distance = 0;
     createPlayer();
     status = 'running';
+}
+
+// 關於時間結束後的彈出視窗之設定
+function showMyDialog() {
+    var dialog = document.getElementById('myDialog');
+    dialog.style.display = 'block'; // 顯示 <dialog>
+    dialog.showModal(); // 啟用模態對話框
+}
+
+// 在特定條件滿足時隱藏 <dialog>
+function hideMyDialog() {
+    var dialog = document.getElementById('myDialog');
+    dialog.close(); // 隱藏 <dialog>
 }
