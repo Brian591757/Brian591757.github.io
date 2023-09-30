@@ -71,7 +71,7 @@ dialog::backdrop {
     }
 
     .image {
-        background-image: url("./assets/ad.jpg");
+        background-image: url("./assets/ad2.png");
         background-size: 100% auto;
         background-repeat: no-repeat;
         background-position: center bottom  ;
