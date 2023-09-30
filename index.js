@@ -5,11 +5,8 @@ var player;
 var keyboard;
 
 var platforms = [];
-<<<<<<< HEAD
 var floor;
-=======
 var grass;
->>>>>>> c451e28e6319ce37f5bab2486b7ac4406726b6a8
 
 var leftWall;
 var leftWall2;
