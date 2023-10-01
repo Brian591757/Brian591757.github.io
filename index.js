@@ -311,7 +311,7 @@ function effect(player, platform) {
     if(platform.key == 'nails_new') {
         nailsEffect(player, platform);
     }
-    if(platform.key == 'normal') {
+    if(platform.key == 'grass') {
         basicEffect(player, platform);
     }
     if(platform.key == 'fake') {
