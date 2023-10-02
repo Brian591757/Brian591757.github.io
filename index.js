@@ -23,7 +23,7 @@ var text3;
 var distance = 0;
 var status = 'running';
 
-var countdownSeconds = 180; //倒數計時的秒數
+var countdownSeconds = 5; //倒數計時的秒數
 var startTime = Date.now();
 var countdownInterval = null;
 var remainingSeconds = null;
@@ -221,7 +221,7 @@ function createTextsBoard () {
     var style = {fill: '#ff0000', fontSize: '20px'}
     text1 = game.add.text(10, 10, '', style);
     text2 = game.add.text(345, 10, '', style);
-    text3 = game.add.text(78, 180, 'Enter 鍵或點擊螢幕重新開始', style);
+    text3 = game.add.text(75, 180, ' "Enter" or Click to restart. ', style);
     text3.visible = false;
 }
 
@@ -287,7 +287,7 @@ function updateTextsBoard () {
         showMyDialog(); // 彈出 <dialog>
         setTimeout(function() {
             window.location.href = 'https://www.surveycake.com/s/z7lnB';
-        }, 2000);
+        }, 10000);
     }
 
     var minutes = Math.floor(remainingSeconds / 60);
