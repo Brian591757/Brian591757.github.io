@@ -23,7 +23,7 @@ var text3;
 var distance = 0;
 var status = 'running';
 
-var countdownSeconds = 5; //倒數計時的秒數
+var countdownSeconds = 180; //倒數計時的秒數
 var startTime = Date.now();
 var countdownInterval = null;
 var remainingSeconds = null;
@@ -286,7 +286,7 @@ function updateTextsBoard () {
         status = 'finish';
         showMyDialog(); // 彈出 <dialog>
         setTimeout(function() {
-            window.location.href = 'https://www.surveycake.com/s/z7lnB';
+            window.location.href = 'https://www.surveycake.com/s/WXOWv';
         }, 10000);
     }
 
